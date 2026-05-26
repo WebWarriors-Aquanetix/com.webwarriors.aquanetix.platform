@@ -12,7 +12,6 @@
 
     <ItemGroup>
       <Folder Include="Controllers\" />
-      <Folder Include="Shared\Infrastructure\Persistence\EFC\Configuration\" />
       <Folder Include="Shared\Infrastructure\Persistence\EFC\Interceptors\" />
       <Folder Include="Shared\Infrastructure\Persistence\EFC\Migrations\" />
     </ItemGroup>
