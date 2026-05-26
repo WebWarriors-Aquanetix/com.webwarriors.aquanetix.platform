@@ -1,4 +1,4 @@
-namespace CatchUpPlatform.API.Shared.Domain.Repositories;
+namespace WebWarriors.Aquanetix.Platform.Shared.Domain.Repositories;
 
 /// <summary>
 ///     Unit of work interface
