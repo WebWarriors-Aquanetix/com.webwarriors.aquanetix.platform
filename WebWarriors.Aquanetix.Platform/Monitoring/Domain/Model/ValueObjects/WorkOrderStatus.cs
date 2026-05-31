@@ -1,6 +1,9 @@
 ﻿namespace WebWarriors.Aquanetix.Platform.Monitoring.Domain.Model.ValueObjects;
 
-public class WorkOrderStatus
+public enum WorkOrderStatus
 {
-    
+    Generated,
+    Assigned,
+    InProgress,
+    Finalized
 }

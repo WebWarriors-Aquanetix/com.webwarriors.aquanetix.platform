@@ -1,6 +1,4 @@
 ﻿namespace WebWarriors.Aquanetix.Platform.Monitoring.Domain.Model.ValueObjects;
 
-public class ResolutionDetails
-{
-    
-}
+
+public record ResolutionDetails(string Description, string ResourceUsed, DateTime ResolvedAt);
