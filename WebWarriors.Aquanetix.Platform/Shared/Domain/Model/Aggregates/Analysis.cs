@@ -1,3 +1,5 @@
+using WebWarriors.Aquanetix.Platform.Shared.Domain.Model.Entities;
+
 namespace WebWarriors.Aquanetix.Platform.Shared.Domain.Model.Aggregates;
 
 public class Analysis : IAuditableEntity

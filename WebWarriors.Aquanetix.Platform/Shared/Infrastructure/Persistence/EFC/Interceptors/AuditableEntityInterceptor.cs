@@ -1,6 +1,7 @@
 ﻿using WebWarriors.Aquanetix.Platform.Shared.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using WebWarriors.Aquanetix.Platform.Shared.Domain.Model.Entities;
 
 namespace WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
 public sealed class AuditableEntityInterceptor : SaveChangesInterceptor
