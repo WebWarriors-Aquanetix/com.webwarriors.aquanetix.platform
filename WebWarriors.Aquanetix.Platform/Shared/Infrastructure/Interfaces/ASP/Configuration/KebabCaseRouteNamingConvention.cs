@@ -1,7 +1,7 @@
-using CatchUpPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
-namespace CatchUpPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
+namespace WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration;
 
 /// <summary>
 ///     An MVC controller-model convention that rewrites <c>[controller]</c> route tokens
