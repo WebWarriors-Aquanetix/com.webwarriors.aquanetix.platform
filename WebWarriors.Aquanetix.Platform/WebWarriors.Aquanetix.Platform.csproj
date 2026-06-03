@@ -26,4 +26,8 @@
       <Folder Include="Shared\Infrastructure\Persistence\EFC\Interceptors\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <AdditionalFiles Include="Shared\Resources\CommonMessages.resx" />
+    </ItemGroup>
+
 </Project>
