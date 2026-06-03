@@ -1,4 +1,4 @@
-namespace CatchUpPlatform.API.Shared.Domain.Model;
+namespace WebWarriors.Aquanetix.Platform.Shared.Domain.Model.Entities;
 
 /// <summary>
 ///     Marks an entity as carrying audit timestamps managed by the persistence layer.
