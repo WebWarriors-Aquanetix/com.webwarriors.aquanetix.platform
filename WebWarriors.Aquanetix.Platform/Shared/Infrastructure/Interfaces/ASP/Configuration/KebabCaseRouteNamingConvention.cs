@@ -1,4 +1,4 @@
-using CatchUpPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration;

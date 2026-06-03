@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace CatchUpPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+namespace WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 
 /// <summary>
 ///     String utility extensions used by the ASP.NET Core infrastructure layer.
