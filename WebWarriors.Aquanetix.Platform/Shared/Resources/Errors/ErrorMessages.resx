@@ -1,68 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-    <data name="GenericError" xml:space="preserve">
+
+  <data name="GenericError" xml:space="preserve">
     <value>An error occurred.</value>
   </data>
-    <data name="OperationCancelled" xml:space="preserve">
+  <data name="OperationCancelled" xml:space="preserve">
     <value>The operation was cancelled.</value>
   </data>
-    <data name="IamError.UserNotFound" xml:space="preserve">
-    <value>User not found.</value>
+
+  <data name="DeviceError.DeviceNotFound" xml:space="preserve">
+    <value>Device not found.</value>
   </data>
-    <data name="IamError.UsernameAlreadyTaken" xml:space="preserve">
-    <value>Username {0} is already taken.</value>
+  <data name="DeviceError.DeviceAlreadyExists" xml:space="preserve">
+    <value>A device with serial number {0} already exists.</value>
   </data>
-    <data name="IamError.InvalidCredentials" xml:space="preserve">
-    <value>Invalid username or password.</value>
+  <data name="DeviceError.DeviceOffline" xml:space="preserve">
+    <value>Device {0} is currently offline.</value>
   </data>
-    <data name="IamError.OperationCancelled" xml:space="preserve">
-    <value>User operation was cancelled.</value>
+  <data name="DeviceError.InvalidThreshold" xml:space="preserve">
+    <value>The threshold value provided is invalid.</value>
   </data>
-    <data name="IamError.DatabaseError" xml:space="preserve">
-    <value>A database error occurred during IAM operation.</value>
+  <data name="DeviceError.TelemetryFailed" xml:space="preserve">
+    <value>Failed to process telemetry data from device {0}.</value>
   </data>
-    <data name="IamError.InternalServerError" xml:space="preserve">
-    <value>An unexpected internal error occurred in IAM.</value>
+  <data name="DeviceError.OperationCancelled" xml:space="preserve">
+    <value>Device operation was cancelled.</value>
   </data>
-    <data name="IamError.ExternalServiceError" xml:space="preserve">
-    <value>An external service error occurred in IAM.</value>
+  <data name="DeviceError.DatabaseError" xml:space="preserve">
+    <value>A database error occurred during device operation.</value>
+  </data>
+  <data name="DeviceError.InternalServerError" xml:space="preserve">
+    <value>An unexpected internal error occurred in Devices.</value>
   </data>
 
-    <data name="ProfilesError.ProfileNotFound" xml:space="preserve">
-    <value>Profile not found.</value>
+  <data name="MonitoringError.AlertNotFound" xml:space="preserve">
+    <value>Alert not found.</value>
   </data>
-    <data name="ProfilesError.EmailAlreadyRegistered" xml:space="preserve">
-    <value>Email address {0} is already registered.</value>
+  <data name="MonitoringError.AlertAlreadyResolved" xml:space="preserve">
+    <value>Alert {0} has already been resolved.</value>
   </data>
-    <data name="ProfilesError.InvalidProfileData" xml:space="preserve">
-    <value>Invalid profile data provided.</value>
+  <data name="MonitoringError.InvalidSeverityLevel" xml:space="preserve">
+    <value>The severity level provided is invalid.</value>
   </data>
-    <data name="ProfilesError.OperationCancelled" xml:space="preserve">
-    <value>Profile operation was cancelled.</value>
+  <data name="MonitoringError.DeviceNotLinked" xml:space="preserve">
+    <value>No device linked to this alert.</value>
   </data>
-    <data name="ProfilesError.DatabaseError" xml:space="preserve">
-    <value>A database error occurred during profile operation.</value>
+  <data name="MonitoringError.OperationCancelled" xml:space="preserve">
+    <value>Monitoring operation was cancelled.</value>
   </data>
-    <data name="ProfilesError.InternalServerError" xml:space="preserve">
-    <value>An unexpected internal error occurred in Profiles.</value>
+  <data name="MonitoringError.DatabaseError" xml:space="preserve">
+    <value>A database error occurred during monitoring operation.</value>
+  </data>
+  <data name="MonitoringError.InternalServerError" xml:space="preserve">
+    <value>An unexpected internal error occurred in Monitoring.</value>
   </data>
 
-    <data name="PublishingError.CategoryNotFound" xml:space="preserve">
-    <value>Category not found.</value>
+  <data name="DashboardError.AnalysisNotFound" xml:space="preserve">
+    <value>Analysis not found.</value>
   </data>
-    <data name="PublishingError.TutorialNotFound" xml:space="preserve">
-    <value>Tutorial not found.</value>
+  <data name="DashboardError.NoDataAvailable" xml:space="preserve">
+    <value>No data available for the requested period.</value>
   </data>
-    <data name="PublishingError.DuplicateTutorialTitle" xml:space="preserve">
-    <value>A tutorial with title {0} already exists.</value>
+  <data name="DashboardError.AnomalyDetectionFailed" xml:space="preserve">
+    <value>Anomaly detection failed for device {0}.</value>
   </data>
-    <data name="PublishingError.OperationCancelled" xml:space="preserve">
-    <value>Publishing operation was cancelled.</value>
+  <data name="DashboardError.InvalidDateRange" xml:space="preserve">
+    <value>The date range provided is invalid.</value>
   </data>
-    <data name="PublishingError.DatabaseError" xml:space="preserve">
-    <value>A database error occurred during publishing operation.</value>
+  <data name="DashboardError.OperationCancelled" xml:space="preserve">
+    <value>Dashboard operation was cancelled.</value>
   </data>
-    <data name="PublishingError.InternalServerError" xml:space="preserve">
-    <value>An unexpected internal error occurred in Publishing.</value>
+  <data name="DashboardError.DatabaseError" xml:space="preserve">
+    <value>A database error occurred during dashboard operation.</value>
   </data>
+  <data name="DashboardError.InternalServerError" xml:space="preserve">
+    <value>An unexpected internal error occurred in Dashboard.</value>
+  </data>
+
 </root>
