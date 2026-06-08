@@ -27,6 +27,10 @@
     <ItemGroup>
         <Folder Include="Controllers\" />
         <Folder Include="Shared\Infrastructure\Persistence\EFC\Interceptors\" />
+        <Folder Include="Subscription\Application\" />
+        <Folder Include="Subscription\Infrastructure\" />
+        <Folder Include="Subscription\Interfaces\" />
+        <Folder Include="Subscription\Resources\" />
     </ItemGroup>
 
 </Project>
