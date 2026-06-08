@@ -1,4 +1,4 @@
-﻿using WebWarriors.Aquanetix.Platform.Monitoring.Domain.Model.Commands;
+﻿/*using WebWarriors.Aquanetix.Platform.Monitoring.Domain.Model.Commands;
 using WebWarriors.Aquanetix.Platform.Monitoring.Interfaces.Rest.Resources;
 
 namespace WebWarriors.Aquanetix.Platform.Monitoring.Interfaces.Rest.Transform;
@@ -16,4 +16,4 @@ public static class CreateAlertCommandFromResourceAssembler
             resource.Status,
             resource.Value,
             resource.Threshold);
-}
+}*/

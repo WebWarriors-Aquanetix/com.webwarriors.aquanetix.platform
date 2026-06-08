@@ -45,7 +45,7 @@ public class AlertCommandService(
         }
     }
 
-    public async Task<Result<Alert>> Handle(UpdateAlertCommand command, CancellationToken cancellationToken)
+    /*public async Task<Result<Alert>> Handle(UpdateAlertCommand command, CancellationToken cancellationToken)
     {
         var alert = await alertRepository.FindByIdAsync(command.Id, cancellationToken);
         if (alert is null)
@@ -73,5 +73,5 @@ public class AlertCommandService(
             return Result<Alert>.Failure(MonitoringError.InternalServerError,
                 _localizer[nameof(MonitoringError.InternalServerError)]);
         }
-    }
+    }*/
 }

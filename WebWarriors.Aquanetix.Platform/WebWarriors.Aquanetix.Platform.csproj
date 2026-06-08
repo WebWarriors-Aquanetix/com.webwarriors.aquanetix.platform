@@ -26,6 +26,7 @@
 
     <ItemGroup>
         <Folder Include="Controllers\" />
+        <Folder Include="Migrations\" />
         <Folder Include="Shared\Domain\Model\Aggregates\" />
         <Folder Include="Shared\Infrastructure\Persistence\EFC\Interceptors\" />
     </ItemGroup>
