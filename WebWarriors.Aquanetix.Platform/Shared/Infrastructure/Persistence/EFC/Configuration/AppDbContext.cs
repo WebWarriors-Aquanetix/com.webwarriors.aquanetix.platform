@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebWarriors.Aquanetix.Platform.ServiceDesign.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
 
@@ -22,7 +23,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(builder);
         builder.UseSnakeCaseNamingConvention();
-        //builder.ApplyMonitoringConfiguration();
+        builder.ApplyServiceDesignConfiguration();
     }
     
     
