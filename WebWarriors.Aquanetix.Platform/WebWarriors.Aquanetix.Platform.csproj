@@ -26,6 +26,10 @@
 
     <ItemGroup>
         <Folder Include="Controllers\" />
+        <Folder Include="Dashboard\Infrastructure\Persistence\EFC\Configuration\Extensions\" />
+        <Folder Include="Dashboard\Infrastructure\Persistence\EFC\Respositories\" />
+        <Folder Include="Dashboard\Interfaces\Rest\Resources\" />
+        <Folder Include="Dashboard\Interfaces\Rest\Transform\" />
         <Folder Include="Shared\Infrastructure\Persistence\EFC\Interceptors\" />
     </ItemGroup>
 
