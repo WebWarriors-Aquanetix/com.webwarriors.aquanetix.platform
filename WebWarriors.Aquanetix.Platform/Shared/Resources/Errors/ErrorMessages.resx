@@ -1,1 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+
+  <data name="GenericError" xml:space="preserve">
+    <value>An error occurred.</value>
+  </data>
+  <data name="OperationCancelled" xml:space="preserve">
+    <value>The operation was cancelled.</value>
+  </data>
+
+  <data name="DeviceError.DeviceNotFound" xml:space="preserve">
+    <value>Device not found.</value>
+  </data>
+  <data name="DeviceError.DeviceAlreadyExists" xml:space="preserve">
+    <value>A device with serial number {0} already exists.</value>
+  </data>
+  <data name="DeviceError.DeviceOffline" xml:space="preserve">
+    <value>Device {0} is currently offline.</value>
+  </data>
+  <data name="DeviceError.InvalidThreshold" xml:space="preserve">
+    <value>The threshold value provided is invalid.</value>
+  </data>
+  <data name="DeviceError.TelemetryFailed" xml:space="preserve">
+    <value>Failed to process telemetry data from device {0}.</value>
+  </data>
+  <data name="DeviceError.OperationCancelled" xml:space="preserve">
+    <value>Device operation was cancelled.</value>
+  </data>
+  <data name="DeviceError.DatabaseError" xml:space="preserve">
+    <value>A database error occurred during device operation.</value>
+  </data>
+  <data name="DeviceError.InternalServerError" xml:space="preserve">
+    <value>An unexpected internal error occurred in Devices.</value>
+  </data>
+
+  <data name="MonitoringError.AlertNotFound" xml:space="preserve">
+    <value>Alert not found.</value>
+  </data>
+  <data name="MonitoringError.AlertAlreadyResolved" xml:space="preserve">
+    <value>Alert {0} has already been resolved.</value>
+  </data>
+  <data name="MonitoringError.InvalidSeverityLevel" xml:space="preserve">
+    <value>The severity level provided is invalid.</value>
+  </data>
+  <data name="MonitoringError.DeviceNotLinked" xml:space="preserve">
+    <value>No device linked to this alert.</value>
+  </data>
+  <data name="MonitoringError.OperationCancelled" xml:space="preserve">
+    <value>Monitoring operation was cancelled.</value>
+  </data>
+  <data name="MonitoringError.DatabaseError" xml:space="preserve">
+    <value>A database error occurred during monitoring operation.</value>
+  </data>
+  <data name="MonitoringError.InternalServerError" xml:space="preserve">
+    <value>An unexpected internal error occurred in Monitoring.</value>
+  </data>
+
+  <data name="DashboardError.AnalysisNotFound" xml:space="preserve">
+    <value>Analysis not found.</value>
+  </data>
+  <data name="DashboardError.NoDataAvailable" xml:space="preserve">
+    <value>No data available for the requested period.</value>
+  </data>
+  <data name="DashboardError.AnomalyDetectionFailed" xml:space="preserve">
+    <value>Anomaly detection failed for device {0}.</value>
+  </data>
+  <data name="DashboardError.InvalidDateRange" xml:space="preserve">
+    <value>The date range provided is invalid.</value>
+  </data>
+  <data name="DashboardError.OperationCancelled" xml:space="preserve">
+    <value>Dashboard operation was cancelled.</value>
+  </data>
+  <data name="DashboardError.DatabaseError" xml:space="preserve">
+    <value>A database error occurred during dashboard operation.</value>
+  </data>
+  <data name="DashboardError.InternalServerError" xml:space="preserve">
+    <value>An unexpected internal error occurred in Dashboard.</value>
+  </data>
+
+</root>
 
