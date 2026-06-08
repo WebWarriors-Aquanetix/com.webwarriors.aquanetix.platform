@@ -1,4 +1,5 @@
-﻿using WebWarriors.Aquanetix.Platform.Shared.Domain.Model.Entities;
+﻿using WebWarriors.Aquanetix.Platform.Monitoring.Domain.Model.Commands;
+using WebWarriors.Aquanetix.Platform.Shared.Domain.Model.Entities;
 
 namespace WebWarriors.Aquanetix.Platform.Monitoring.Domain.Model.Aggregates;
 public class Alert : IAuditableEntity
