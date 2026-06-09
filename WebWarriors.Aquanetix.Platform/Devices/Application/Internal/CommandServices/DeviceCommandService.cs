@@ -1,10 +1,9 @@
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using WebWarriors.Aquanetix.Platform.Devices.Application.CommandServices;
 using WebWarriors.Aquanetix.Platform.Devices.Domain.Model;
 using WebWarriors.Aquanetix.Platform.Devices.Domain.Model.Aggregates;
 using WebWarriors.Aquanetix.Platform.Devices.Domain.Model.Command;
-using WebWarriors.Aquanetix.Platform.Devices.Domain.Model.ValueObjects;
 using WebWarriors.Aquanetix.Platform.Devices.Domain.Repositories;
 using WebWarriors.Aquanetix.Platform.Shared.Application.Model;
 using WebWarriors.Aquanetix.Platform.Shared.Domain.Repositories;
@@ -12,19 +11,36 @@ using WebWarriors.Aquanetix.Platform.Shared.Resources.Errors;
 
 namespace WebWarriors.Aquanetix.Platform.Devices.Application.Internal.CommandServices;
 
-public class DeviceCommandService
+public class DeviceCommandService(
+    IDeviceRepository deviceRepository,
+    IUnitOfWork unitOfWork,
+    IStringLocalizer<ErrorMessages> localizer)
+    : IDeviceCommandService
 {
-    private readonly IDeviceRepository _deviceRepository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IStringLocalizer<ErrorMessages> _localizer;
-
-    public DeviceCommandService(
-        IDeviceRepository deviceRepository, 
-        IUnitOfWork unitOfWork, 
-        IStringLocalizer<ErrorMessages> localizer)
+    /// <inheritdoc />
+    public async Task<Result<Device>> Handle(CreateDeviceCommand command, CancellationToken cancellationToken)
     {
-        _deviceRepository = deviceRepository;
-        _unitOfWork = unitOfWork;
-        _localizer = localizer;
+        var device = new Device(command.OwnerId, command.SerialNumber, command.DeviceType);
+        try
+        {
+            await deviceRepository.AddAsync(device, cancellationToken);
+            await unitOfWork.CompleteAsync(cancellationToken);
+            return Result<Device>.Success(device);
+        }
+        catch (OperationCanceledException)
+        {
+            return Result<Device>.Failure(DevicesError.OperationCancelled,
+                localizer[nameof(DevicesError.OperationCancelled)]);
+        }
+        catch (DbUpdateException)
+        {
+            return Result<Device>.Failure(DevicesError.InvalidDeviceData,
+                localizer[nameof(DevicesError.InvalidDeviceData)]);
+        }
+        catch (Exception)
+        {
+            return Result<Device>.Failure(DevicesError.InvalidDeviceData,
+                localizer[nameof(DevicesError.InvalidDeviceData)]);
+        }
     }
 }
