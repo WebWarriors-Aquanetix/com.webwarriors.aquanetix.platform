@@ -20,38 +20,26 @@ using WebWarriors.Aquanetix.Platform.Shared.Resources.Errors;
 using ProblemDetailsFactory =
     WebWarriors.Aquanetix.Platform.Shared.Interfaces.Rest.ProblemDetails.ProblemDetailsFactory;
 
-
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services
     .AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()))
     .AddDataAnnotationsLocalization();
 
-
 builder.Services.AddProblemDetails();
-
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllPolicy",
-        policy => policy
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+        policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
-
 
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 {
-    var connectionStringTemplate = builder.Configuration.GetConnectionString("DefaultConnection");
-    if (string.IsNullOrWhiteSpace(connectionStringTemplate))
-        throw new InvalidOperationException("Database connection string is not set in the configuration.");
-
-    var connectionString = Environment.ExpandEnvironmentVariables(connectionStringTemplate);
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     if (string.IsNullOrWhiteSpace(connectionString))
-        throw new InvalidOperationException("Database connection string is not set in the configuration.");
+        throw new InvalidOperationException("Connection string is not configured.");
 
     options.UseMySQL(connectionString)
         .UseLoggerFactory(serviceProvider.GetRequiredService<ILoggerFactory>())
@@ -61,16 +49,11 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
         options.EnableSensitiveDataLogging();
 });
 
-
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-
 builder.Services.AddSingleton<IStringLocalizer<ErrorMessages>, StringLocalizer<ErrorMessages>>();
 builder.Services.AddSingleton<IStringLocalizer<CommonMessages>, StringLocalizer<CommonMessages>>();
 
-
 builder.Services.AddSingleton<ProblemDetailsFactory>();
-
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -78,65 +61,37 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title       = "WebWarriors.Aquanetix.Platform",
         Version     = "v1",
-        Description = "Aquanetix IoT Water Quality Monitoring Platform API",
-        Contact     = new OpenApiContact
-        {
-            Name  = "WebWarriors",
-            Email = "contact@webwarriors.com"
-        },
-        License = new OpenApiLicense
-        {
-            Name = "Apache 2.0",
-            Url  = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
-        }
+        Description = "Aquanetix IoT Water Quality Monitoring Platform API"
     });
     options.EnableAnnotations();
 });
 
-
-
-// Shared BC
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-
-// builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
-// builder.Services.AddScoped<IDeviceCommandService, DeviceCommandService>();
-// builder.Services.AddScoped<IDeviceQueryService, DeviceQueryService>();
 
 // Monitoring BC
 builder.Services.AddScoped<IAlertRepository, AlertRepository>();
 builder.Services.AddScoped<IAlertCommandService, AlertCommandService>();
 builder.Services.AddScoped<IAlertQueryService, AlertQueryService>();
 
-
-// builder.Services.AddScoped<IAnalysisRepository, AnalysisRepository>();
-// builder.Services.AddScoped<IAnalysisCommandService, AnalysisCommandService>();
-// builder.Services.AddScoped<IAnalysisQueryService, AnalysisQueryService>();
-
-
 builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
 builder.Services.AddCortexMediator([typeof(Program)]);
 
-
 var app = builder.Build();
 
-
-
+// Migraciones automáticas
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    context.Database.EnsureCreated();
+    context.Database.Migrate();
 }
-
 
 app.UseGlobalExceptionHandler();
 
 var supportedCultures = new[] { "en", "es" };
-var localizationOptions = new RequestLocalizationOptions()
+app.UseRequestLocalization(new RequestLocalizationOptions()
     .SetDefaultCulture(supportedCultures[0])
     .AddSupportedCultures(supportedCultures)
-    .AddSupportedUICultures(supportedCultures);
-app.UseRequestLocalization(localizationOptions);
+    .AddSupportedUICultures(supportedCultures));
 
 if (app.Environment.IsDevelopment())
 {
