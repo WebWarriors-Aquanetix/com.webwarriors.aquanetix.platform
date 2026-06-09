@@ -1,23 +1,152 @@
+using Cortex.Mediator.Commands;
+using Cortex.Mediator.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Microsoft.OpenApi;
+using WebWarriors.Aquanetix.Platform.Monitoring.Application.CommandServices;
+using WebWarriors.Aquanetix.Platform.Monitoring.Application.Internal.CommandServices;
+using WebWarriors.Aquanetix.Platform.Monitoring.Application.Internal.QueryServices;
+using WebWarriors.Aquanetix.Platform.Monitoring.Application.QueryServices;
+using WebWarriors.Aquanetix.Platform.Monitoring.Domain.Repositories;
+using WebWarriors.Aquanetix.Platform.Monitoring.Infrastructure.Persistence.EFC.Repositories;
+using WebWarriors.Aquanetix.Platform.Shared.Domain.Repositories;
+using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration;
+using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Mediator.Cortex.Configuration;
+using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
+using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Repositories;
+using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Pipeline.Middleware.Extensions;
+using WebWarriors.Aquanetix.Platform.Shared.Resources;
+using WebWarriors.Aquanetix.Platform.Shared.Resources.Errors;
+using ProblemDetailsFactory =
+    WebWarriors.Aquanetix.Platform.Shared.Interfaces.Rest.ProblemDetails.ProblemDetailsFactory;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services
+    .AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()))
+    .AddDataAnnotationsLocalization();
+
+
+builder.Services.AddProblemDetails();
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllPolicy",
+        policy => policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
+
+builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+{
+    var connectionStringTemplate = builder.Configuration.GetConnectionString("DefaultConnection");
+    if (string.IsNullOrWhiteSpace(connectionStringTemplate))
+        throw new InvalidOperationException("Database connection string is not set in the configuration.");
+
+    var connectionString = Environment.ExpandEnvironmentVariables(connectionStringTemplate);
+    if (string.IsNullOrWhiteSpace(connectionString))
+        throw new InvalidOperationException("Database connection string is not set in the configuration.");
+
+    options.UseMySQL(connectionString)
+        .UseLoggerFactory(serviceProvider.GetRequiredService<ILoggerFactory>())
+        .EnableDetailedErrors();
+
+    if (builder.Environment.IsDevelopment())
+        options.EnableSensitiveDataLogging();
+});
+
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.AddSingleton<IStringLocalizer<ErrorMessages>, StringLocalizer<ErrorMessages>>();
+builder.Services.AddSingleton<IStringLocalizer<CommonMessages>, StringLocalizer<CommonMessages>>();
+
+
+builder.Services.AddSingleton<ProblemDetailsFactory>();
+
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title       = "WebWarriors.Aquanetix.Platform",
+        Version     = "v1",
+        Description = "Aquanetix IoT Water Quality Monitoring Platform API",
+        Contact     = new OpenApiContact
+        {
+            Name  = "WebWarriors",
+            Email = "contact@webwarriors.com"
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Apache 2.0",
+            Url  = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
+        }
+    });
+    options.EnableAnnotations();
+});
+
+
+
+// Shared BC
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+// builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+// builder.Services.AddScoped<IDeviceCommandService, DeviceCommandService>();
+// builder.Services.AddScoped<IDeviceQueryService, DeviceQueryService>();
+
+// Monitoring BC
+builder.Services.AddScoped<IAlertRepository, AlertRepository>();
+builder.Services.AddScoped<IAlertCommandService, AlertCommandService>();
+builder.Services.AddScoped<IAlertQueryService, AlertQueryService>();
+
+
+// builder.Services.AddScoped<IAnalysisRepository, AnalysisRepository>();
+// builder.Services.AddScoped<IAnalysisCommandService, AnalysisCommandService>();
+// builder.Services.AddScoped<IAnalysisQueryService, AnalysisQueryService>();
+
+
+builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
+builder.Services.AddCortexMediator([typeof(Program)]);
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+
+
+using (var scope = app.Services.CreateScope())
 {
-    app.MapOpenApi();
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    context.Database.Migrate();
 }
 
+
+app.UseGlobalExceptionHandler();
+
+var supportedCultures = new[] { "en", "es" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+app.UseRequestLocalization(localizationOptions);
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseCors("AllowAllPolicy");
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
