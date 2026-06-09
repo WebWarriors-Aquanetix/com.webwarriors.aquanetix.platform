@@ -2,6 +2,7 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.Annotations;
+using WebWarriors.Aquanetix.Platform.ServiceDesign.Application.CommandServices;
 using WebWarriors.Aquanetix.Platform.ServiceDesign.Application.QueryServices;
 using WebWarriors.Aquanetix.Platform.ServiceDesign.Domain.Model.Queries;
 using WebWarriors.Aquanetix.Platform.ServiceDesign.Interfaces.Rest.Resources;
@@ -17,6 +18,7 @@ namespace WebWarriors.Aquanetix.Platform.ServiceDesign.Interfaces.Rest;
 [SwaggerTag("Available Water Batch endpoints")]
 public class WaterBatchesController(
     IWaterBatchQueryService waterBatchQueryService,
+    IWaterBatchCommandService waterBatchCommandService,
     IStringLocalizer<ErrorMessages> errorLocalizer,
     ProblemDetailsFactory problemDetailsFactory)
     : ControllerBase
@@ -44,5 +46,25 @@ public class WaterBatchesController(
                 "WaterBatchNotFound",
                 errorLocalizer["ServiceDesignError.WaterBatchNotFound"]);
         return Ok(WaterBatchResourceFromEntityAssembler.ToResourceFromEntity(batch));
+    }
+
+    [HttpPost]
+    [SwaggerOperation(Summary = "Create a water batch", OperationId = "CreateWaterBatch")]
+    [SwaggerResponse(StatusCodes.Status201Created, "Water batch created", typeof(WaterBatchResource))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid request")]
+    public async Task<IActionResult> CreateWaterBatch([FromBody] CreateWaterBatchResource resource,
+        CancellationToken cancellationToken)
+    {
+        var command = CreateWaterBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var result  = await waterBatchCommandService.Handle(command, cancellationToken);
+        if (!result.IsSuccess)
+            return problemDetailsFactory.CreateProblemDetails(
+                this,
+                StatusCodes.Status400BadRequest,
+                result.Error,
+                result.Message);
+        return CreatedAtAction(nameof(GetWaterBatchById),
+            new { waterBatchId = result.Value!.Id },
+            WaterBatchResourceFromEntityAssembler.ToResourceFromEntity(result.Value));
     }
 }

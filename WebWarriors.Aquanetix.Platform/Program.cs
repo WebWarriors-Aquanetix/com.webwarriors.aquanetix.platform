@@ -3,6 +3,8 @@ using Cortex.Mediator.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.OpenApi;
+using WebWarriors.Aquanetix.Platform.ServiceDesign.Application.CommandServices;
+using WebWarriors.Aquanetix.Platform.ServiceDesign.Application.Internal.CommandServices;
 using WebWarriors.Aquanetix.Platform.ServiceDesign.Application.Internal.QueryServices;
 using WebWarriors.Aquanetix.Platform.ServiceDesign.Application.QueryServices;
 using WebWarriors.Aquanetix.Platform.ServiceDesign.Domain.Repositories;
@@ -26,7 +28,6 @@ builder.Services
     .AddDataAnnotationsLocalization();
 
 builder.Services.AddProblemDetails();
-
 
 builder.Services.AddCors(options =>
 {
@@ -66,9 +67,9 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
 builder.Services.AddScoped<IWaterBatchRepository, WaterBatchRepository>();
 builder.Services.AddScoped<IWaterBatchQueryService, WaterBatchQueryService>();
+builder.Services.AddScoped<IWaterBatchCommandService, WaterBatchCommandService>();
 
 builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
 builder.Services.AddCortexMediator([typeof(Program)]);
