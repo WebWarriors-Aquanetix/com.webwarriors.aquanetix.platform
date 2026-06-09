@@ -1,5 +1,5 @@
 using WebWarriors.Aquanetix.Platform.Devices.Application.QueryServices;
-using WebWarriors.Aquanetix.Platform.Devices.Domain.Model.Aggregates;
+using WebWarriors.Aquanetix.Platform.Devices.Domain.Model.Aggregates; // O .Entities según tu mapeo
 using WebWarriors.Aquanetix.Platform.Devices.Domain.Model.Queries;
 using WebWarriors.Aquanetix.Platform.Devices.Domain.Repositories;
 
@@ -9,6 +9,7 @@ public class DeviceQueryService(IDeviceRepository deviceRepository) : IDeviceQue
 {
     public async Task<Device?> Handle(GetDeviceByIdQuery query, CancellationToken cancellationToken)
     {
-        return await deviceRepository.GetDeviceByIdQuery(query.DeviceId, cancellationToken);
+        // CORRECCIÓN: Llamamos al método correcto del repositorio (FindByIdAsync)
+        return await deviceRepository.FindByIdAsync(query.DeviceId);
     }
 }
