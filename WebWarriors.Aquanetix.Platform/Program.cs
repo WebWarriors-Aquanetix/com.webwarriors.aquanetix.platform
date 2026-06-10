@@ -36,9 +36,13 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    var connectionStringTemplate = builder.Configuration.GetConnectionString("DefaultConnection");
+    if (string.IsNullOrWhiteSpace(connectionStringTemplate))
+        throw new InvalidOperationException("Database connection string is not set in the configuration.");
+
+    var connectionString = Environment.ExpandEnvironmentVariables(connectionStringTemplate);
     if (string.IsNullOrWhiteSpace(connectionString))
-        throw new InvalidOperationException("Connection string is not configured.");
+        throw new InvalidOperationException("Database connection string is not set in the configuration.");
 
     options.UseMySQL(connectionString)
         .UseLoggerFactory(serviceProvider.GetRequiredService<ILoggerFactory>())
@@ -46,6 +50,7 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 
     if (builder.Environment.IsDevelopment())
         options.EnableSensitiveDataLogging();
+    Console.WriteLine(connectionString);
 });
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
