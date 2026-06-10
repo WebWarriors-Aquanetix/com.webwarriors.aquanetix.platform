@@ -17,6 +17,7 @@ using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Repos
 using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Pipeline.Middleware.Extensions;
 using WebWarriors.Aquanetix.Platform.Shared.Resources;
 using WebWarriors.Aquanetix.Platform.Shared.Resources.Errors;
+using MySql.Data.MySqlClient;
 using ProblemDetailsFactory =
     WebWarriors.Aquanetix.Platform.Shared.Interfaces.Rest.ProblemDetails.ProblemDetailsFactory;
 
@@ -82,8 +83,14 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    if (context.Database.GetPendingMigrations().Any())
+    try
+    {
         context.Database.Migrate();
+    }
+    catch (MySql.Data.MySqlClient.MySqlException ex) when (ex.Message.Contains("database exists"))
+    {
+        // Base ya existe, continuar normalmente
+    }
 }
 
 app.UseGlobalExceptionHandler();
