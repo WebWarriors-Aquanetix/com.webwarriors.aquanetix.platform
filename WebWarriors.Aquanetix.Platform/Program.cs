@@ -83,14 +83,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    try
-    {
-        context.Database.Migrate();
-    }
-    catch (MySql.Data.MySqlClient.MySqlException ex) when (ex.Message.Contains("database exists"))
-    {
-        // Base ya existe, continuar normalmente
-    }
+    context.Database.Migrate();
 }
 
 app.UseGlobalExceptionHandler();
