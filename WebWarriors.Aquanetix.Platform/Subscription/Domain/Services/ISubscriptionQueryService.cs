@@ -1,10 +1,9 @@
-using Aquanetix.Subscriptions.Domain.Model.Aggregates;
-using Aquanetix.Subscriptions.Domain.Model.Queries;
+using WebWarriors.Aquanetix.Platform.Subscription.Domain.Model.Queries;
 
-namespace Aquanetix.Subscriptions.Domain.Services;
+namespace WebWarriors.Aquanetix.Platform.Subscription.Domain.Services;
 
 public interface ISubscriptionQueryService
 {
-    Task<Subscription?> Handle(
-        GetSubscriptionByIdQuery query);
+    Task<WebWarriors.Aquanetix.Platform.Subscription.Domain.Model.Aggregates.Subscription?>
+        Handle(GetSubscriptionByIdQuery query);
 }

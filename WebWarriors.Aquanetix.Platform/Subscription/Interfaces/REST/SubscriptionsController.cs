@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Aquanetix.Subscriptions.Domain.Model.Queries;
-using Aquanetix.Subscriptions.Domain.Services;
-using Aquanetix.Subscriptions.Interfaces.REST.Transform;
+using WebWarriors.Aquanetix.Platform.Subscription.Domain.Model.Queries;
+using WebWarriors.Aquanetix.Platform.Subscription.Domain.Services;
+using WebWarriors.Aquanetix.Platform.Subscription.Interfaces.REST.Transform;
 
-namespace Aquanetix.Subscriptions.Interfaces.REST;
+namespace WebWarriors.Aquanetix.Platform.Subscription.Interfaces.REST;
 
 [ApiController]
 [Route("api/v1/subscriptions")]
@@ -20,8 +20,7 @@ public class SubscriptionsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var query =
-            new GetSubscriptionByIdQuery(id);
+        var query = new GetSubscriptionByIdQuery(id);
 
         var subscription =
             await queryService.Handle(query);

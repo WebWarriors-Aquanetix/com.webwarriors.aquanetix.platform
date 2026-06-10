@@ -1,4 +1,4 @@
-namespace Aquanetix.Subscriptions.Interfaces.REST.Resources;
+namespace WebWarriors.Aquanetix.Platform.Subscription.Interfaces.REST.Resources;
 
 public record SubscriptionResource(
     int Id,
