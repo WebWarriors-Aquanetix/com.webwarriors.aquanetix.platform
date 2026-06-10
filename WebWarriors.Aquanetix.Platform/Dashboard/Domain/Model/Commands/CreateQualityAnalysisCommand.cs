@@ -1,8 +1,13 @@
+using WebWarriors.Aquanetix.Platform.Dashboard.Domain.Model.ValueObjects;
+
 namespace WebWarriors.Aquanetix.Platform.Dashboard.Domain.Model.Commands;
 
 public record CreateQualityAnalysisCommand(
-    double Ph,
-    double Temperature,
-    double Turbidity,
-    string Status
+    int Id,
+    int SensorSourceId,
+    AnomalyType DetectedParameters,
+    AnomalyStatus AnomalyStatus,
+    double SeverityScore,
+    bool HasContaminationPeakPrediction,
+    DateTimeOffset? CreatedAt
 );
