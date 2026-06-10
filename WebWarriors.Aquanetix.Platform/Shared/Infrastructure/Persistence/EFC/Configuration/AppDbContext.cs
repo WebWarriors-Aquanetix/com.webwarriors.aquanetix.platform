@@ -3,15 +3,14 @@ using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Confi
 using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
 
 namespace WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
-//using WebWarriors.Aquanetix.Platform.Monitoring.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
 
-/// <summary>
-///     Application database context for the Aquanetix Platform.
-/// </summary>
-/// <param name="options">The options for the database context.</param>
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
+    public DbSet<
+            WebWarriors.Aquanetix.Platform.Subscription.Domain.Model.Aggregates.Subscription>
+        Subscriptions { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
         builder.AddInterceptors(new AuditableEntityInterceptor());
@@ -22,8 +21,5 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(builder);
         builder.UseSnakeCaseNamingConvention();
-        //builder.ApplyMonitoringConfiguration();
     }
-    
-    
 }
