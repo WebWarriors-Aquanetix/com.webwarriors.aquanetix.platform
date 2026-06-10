@@ -1,6 +1,5 @@
-using WebWarriors.Aquanetix.Platform.Dashboard.Domain.Model.Entities;
 using WebWarriors.Aquanetix.Platform.Dashboard.Domain.Model.ValueObjects;
-using WebWarriors.Aquanetix.Platform.Shared.Domain.Model;
+
 using WebWarriors.Aquanetix.Platform.Shared.Domain.Model.Entities;
 
 namespace WebWarriors.Aquanetix.Platform.Dashboard.Domain.Model.Aggregates;
@@ -13,9 +12,6 @@ public class QualityAnalysis : IAuditableEntity
     public AnomalyStatus AnomalyStatus { get; private set; }
     public double SeverityScore { get; private set; }
     public bool HasContaminationPeakPrediction { get; private set; }
-
-    public ICollection<Alert> Alerts { get; private set; }
-        = new List<Alert>();
 
     public DateTimeOffset? CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
@@ -48,14 +44,5 @@ public class QualityAnalysis : IAuditableEntity
     public void MarkContaminationPeakPrediction()
     {
         HasContaminationPeakPrediction = true;
-    }
-
-    public void GenerateAlert(AnomalyType anomalyType, 
-        double severityScore, bool isSubscriptionValid)
-    {
-        if (!isSubscriptionValid) return;
-
-        var alert = new Alert(Id, anomalyType, severityScore);
-        Alerts.Add(alert);
     }
 }
