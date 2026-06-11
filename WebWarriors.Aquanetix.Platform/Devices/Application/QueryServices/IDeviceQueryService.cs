@@ -1,0 +1,9 @@
+using WebWarriors.Aquanetix.Platform.Devices.Domain.Model.Aggregates;
+using WebWarriors.Aquanetix.Platform.Devices.Domain.Model.Queries;
+
+namespace WebWarriors.Aquanetix.Platform.Devices.Application.QueryServices;
+
+public interface IDeviceQueryService
+{
+    Task<Device?> Handle(GetDeviceByIdQuery query, CancellationToken cancellationToken);
+}
