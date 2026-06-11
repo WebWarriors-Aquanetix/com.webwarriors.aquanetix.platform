@@ -26,6 +26,7 @@
 
     <ItemGroup>
         <Folder Include="Controllers\" />
+        <Folder Include="Shared\Domain\Model\Aggregates\" />
         <Folder Include="Shared\Infrastructure\Persistence\EFC\Interceptors\" />
         <Folder Include="Subscription\Application\" />
         <Folder Include="Subscription\Infrastructure\" />
