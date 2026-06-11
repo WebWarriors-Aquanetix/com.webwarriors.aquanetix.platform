@@ -44,34 +44,5 @@ public class AlertCommandService(
                 _localizer[nameof(MonitoringError.InternalServerError)]);
         }
     }
-
-    /*public async Task<Result<Alert>> Handle(UpdateAlertCommand command, CancellationToken cancellationToken)
-    {
-        var alert = await alertRepository.FindByIdAsync(command.Id, cancellationToken);
-        if (alert is null)
-            return Result<Alert>.Failure(MonitoringError.AlertNotFound,
-                _localizer[nameof(MonitoringError.AlertNotFound)]);
-
-        try
-        {
-            alertRepository.Update(alert);
-            await unitOfWork.CompleteAsync(cancellationToken);
-            return Result<Alert>.Success(alert);
-        }
-        catch (OperationCanceledException)
-        {
-            return Result<Alert>.Failure(MonitoringError.OperationCancelled,
-                _localizer[nameof(MonitoringError.OperationCancelled)]);
-        }
-        catch (DbUpdateException)
-        {
-            return Result<Alert>.Failure(MonitoringError.DatabaseError,
-                _localizer[nameof(MonitoringError.DatabaseError)]);
-        }
-        catch (Exception)
-        {
-            return Result<Alert>.Failure(MonitoringError.InternalServerError,
-                _localizer[nameof(MonitoringError.InternalServerError)]);
-        }
-    }*/
+    
 }
