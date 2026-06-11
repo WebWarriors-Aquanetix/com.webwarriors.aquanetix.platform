@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using WebWarriors.Aquanetix.Platform.Devices.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
 
@@ -9,7 +8,6 @@ namespace WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.C
 ///     Application database context for the Aquanetix Platform.
 /// </summary>
 /// <param name="options">The options for the database context.</param>
-
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
@@ -21,15 +19,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
-        // Convención snake_case va PRIMERO
         builder.UseSnakeCaseNamingConvention();
-
-        // Devices BC
-        builder.ApplyDevicesConfiguration();
-
-        // TODO: builder.ApplyMonitoringConfiguration();
-        // TODO: builder.ApplyServiceDesignConfiguration();
-        // TODO: builder.ApplyDashboardConfiguration();
     }
 }
