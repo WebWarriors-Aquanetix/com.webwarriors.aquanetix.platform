@@ -5,6 +5,11 @@ using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Inter
 
 namespace WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
 
+/// <summary>
+///     Application database context for the Aquanetix Platform.
+/// </summary>
+/// <param name="options">The options for the database context.</param>
+
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
