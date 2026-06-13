@@ -13,6 +13,7 @@ public static class QualityAnalysisResourceFromEntityAssembler
             entity.AnomalyStatus.ToString(),
             entity.SeverityScore,
             entity.HasContaminationPeakPrediction,
-            entity.CreatedAt
+            entity.CreatedAt,
+            entity.UpdatedAt
         );
 }

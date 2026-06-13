@@ -21,6 +21,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(builder);
         builder.UseSnakeCaseNamingConvention();
-        builder.ApplyDashboardConfiguration();
+        //builder.ApplyDashboardConfiguration();
     }
 }

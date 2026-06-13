@@ -7,5 +7,6 @@ public record QualityAnalysisResource(
     string AnomalyStatus,
     double SeverityScore,
     bool HasContaminationPeakPrediction,
-    DateTimeOffset? CreatedAt
+    DateTimeOffset? CreatedAt,
+    DateTimeOffset? UpdatedAt 
 );
