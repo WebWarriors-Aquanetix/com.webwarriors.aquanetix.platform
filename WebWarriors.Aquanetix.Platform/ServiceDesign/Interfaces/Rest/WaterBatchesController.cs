@@ -59,12 +59,24 @@ public class WaterBatchesController(
         var result  = await waterBatchCommandService.Handle(command, cancellationToken);
         if (!result.IsSuccess)
             return problemDetailsFactory.CreateProblemDetails(
-                this,
-                StatusCodes.Status400BadRequest,
-                result.Error,
-                result.Message);
+                this, StatusCodes.Status400BadRequest, result.Error, result.Message);
         return CreatedAtAction(nameof(GetWaterBatchById),
             new { waterBatchId = result.Value!.Id },
             WaterBatchResourceFromEntityAssembler.ToResourceFromEntity(result.Value));
+    }
+
+    [HttpPut("{waterBatchId:int}")]
+    [SwaggerOperation(Summary = "Update a water batch", OperationId = "UpdateWaterBatch")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Water batch updated", typeof(WaterBatchResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Water batch not found")]
+    public async Task<IActionResult> UpdateWaterBatch([FromRoute] int waterBatchId,
+        [FromBody] UpdateWaterBatchResource resource, CancellationToken cancellationToken)
+    {
+        var command = UpdateWaterBatchCommandFromResourceAssembler.ToCommandFromResource(resource, waterBatchId);
+        var result  = await waterBatchCommandService.Handle(command, cancellationToken);
+        if (!result.IsSuccess)
+            return problemDetailsFactory.CreateProblemDetails(
+                this, StatusCodes.Status404NotFound, result.Error, result.Message);
+        return Ok(WaterBatchResourceFromEntityAssembler.ToResourceFromEntity(result.Value!));
     }
 }
