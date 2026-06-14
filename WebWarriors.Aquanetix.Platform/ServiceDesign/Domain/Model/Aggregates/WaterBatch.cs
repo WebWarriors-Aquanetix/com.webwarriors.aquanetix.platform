@@ -33,4 +33,15 @@ public class WaterBatch : IAuditableEntity
 
     public DateTimeOffset? CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
+
+    /// <summary>Updates the water batch with new values.</summary>
+    public void Update(UpdateWaterBatchCommand command)
+    {
+        CertificationCode   = command.CertificationCode;
+        DestinationSectorId = command.DestinationSectorId;
+        VolumeLiters        = command.VolumeLiters;
+        DeliveryTimestamp   = command.DeliveryTimestamp;
+        Status              = command.Status;
+        Source              = command.Source;
+    }
 }
