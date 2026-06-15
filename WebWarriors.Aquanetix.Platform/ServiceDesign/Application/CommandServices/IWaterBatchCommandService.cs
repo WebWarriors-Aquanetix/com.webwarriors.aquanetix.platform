@@ -8,4 +8,5 @@ public interface IWaterBatchCommandService
 {
     Task<Result<WaterBatch>> Handle(CreateWaterBatchCommand command, CancellationToken cancellationToken);
     Task<Result<WaterBatch>> Handle(UpdateWaterBatchCommand command, CancellationToken cancellationToken);
+    Task<Result<bool>> Handle(DeleteWaterBatchCommand command, CancellationToken cancellationToken);
 }

@@ -74,4 +74,34 @@ public class WaterBatchCommandService(
                 localizer[nameof(ServiceDesignError.InternalServerError)]);
         }
     }
+
+    /// <inheritdoc />
+    public async Task<Result<bool>> Handle(DeleteWaterBatchCommand command, CancellationToken cancellationToken)
+    {
+        var waterBatch = await waterBatchRepository.FindByIdAsync(command.Id, cancellationToken);
+        if (waterBatch is null)
+            return Result<bool>.Failure(ServiceDesignError.WaterBatchNotFound,
+                localizer[nameof(ServiceDesignError.WaterBatchNotFound)]);
+        try
+        {
+            waterBatchRepository.Remove(waterBatch);
+            await unitOfWork.CompleteAsync(cancellationToken);
+            return Result<bool>.Success(true);
+        }
+        catch (OperationCanceledException)
+        {
+            return Result<bool>.Failure(ServiceDesignError.OperationCancelled,
+                localizer[nameof(ServiceDesignError.OperationCancelled)]);
+        }
+        catch (DbUpdateException)
+        {
+            return Result<bool>.Failure(ServiceDesignError.DatabaseError,
+                localizer[nameof(ServiceDesignError.DatabaseError)]);
+        }
+        catch (Exception)
+        {
+            return Result<bool>.Failure(ServiceDesignError.InternalServerError,
+                localizer[nameof(ServiceDesignError.InternalServerError)]);
+        }
+    }
 }

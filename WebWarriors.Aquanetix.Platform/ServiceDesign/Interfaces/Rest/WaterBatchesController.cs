@@ -4,6 +4,7 @@ using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.Annotations;
 using WebWarriors.Aquanetix.Platform.ServiceDesign.Application.CommandServices;
 using WebWarriors.Aquanetix.Platform.ServiceDesign.Application.QueryServices;
+using WebWarriors.Aquanetix.Platform.ServiceDesign.Domain.Model.Commands;
 using WebWarriors.Aquanetix.Platform.ServiceDesign.Domain.Model.Queries;
 using WebWarriors.Aquanetix.Platform.ServiceDesign.Interfaces.Rest.Resources;
 using WebWarriors.Aquanetix.Platform.ServiceDesign.Interfaces.Rest.Transform;
@@ -78,5 +79,19 @@ public class WaterBatchesController(
             return problemDetailsFactory.CreateProblemDetails(
                 this, StatusCodes.Status404NotFound, result.Error, result.Message);
         return Ok(WaterBatchResourceFromEntityAssembler.ToResourceFromEntity(result.Value!));
+    }
+
+    [HttpDelete("{waterBatchId:int}")]
+    [SwaggerOperation(Summary = "Delete a water batch", OperationId = "DeleteWaterBatch")]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "Water batch deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Water batch not found")]
+    public async Task<IActionResult> DeleteWaterBatch([FromRoute] int waterBatchId, CancellationToken cancellationToken)
+    {
+        var command = new DeleteWaterBatchCommand(waterBatchId);
+        var result  = await waterBatchCommandService.Handle(command, cancellationToken);
+        if (!result.IsSuccess)
+            return problemDetailsFactory.CreateProblemDetails(
+                this, StatusCodes.Status404NotFound, result.Error, result.Message);
+        return NoContent();
     }
 }
