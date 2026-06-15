@@ -6,4 +6,5 @@ namespace WebWarriors.Aquanetix.Platform.ServiceDesign.Application.QueryServices
 public interface IWaterBatchQueryService
 {
     Task<IEnumerable<WaterBatch>> Handle(GetAllWaterBatchesQuery query, CancellationToken cancellationToken);
+    Task<WaterBatch?> Handle(GetWaterBatchByIdQuery query, CancellationToken cancellationToken);
 }
