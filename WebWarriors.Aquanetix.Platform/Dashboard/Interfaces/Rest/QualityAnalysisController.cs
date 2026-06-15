@@ -23,4 +23,14 @@ public class QualityAnalysisController(IQualityAnalysisQueryService qualityAnaly
 
         return Ok(QualityAnalysisResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<QualityAnalysisResource>>> GetAllQualityAnalyses(
+        CancellationToken cancellationToken)
+    {
+        var query = new GetAllQualityAnalysesQuery();
+        var result = await qualityAnalysisQueryService.Handle(query, cancellationToken);
+
+        return Ok(result.Select(QualityAnalysisResourceFromEntityAssembler.ToResourceFromEntity));
+    }
 }
