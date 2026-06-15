@@ -1,14 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using WebWarriors.Aquanetix.Platform.Dashboard.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using WebWarriors.Aquanetix.Platform.Devices.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using WebWarriors.Aquanetix.Platform.Monitoring.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using WebWarriors.Aquanetix.Platform.ServiceDesign.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
 
 namespace WebWarriors.Aquanetix.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
 
-/// <summary>
-///     Application database context for the Aquanetix Platform.
-/// </summary>
-/// <param name="options">The options for the database context.</param>
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
@@ -21,6 +20,10 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(builder);
         builder.UseSnakeCaseNamingConvention();
-        //builder.ApplyDashboardConfiguration();
+
+        builder.ApplyServiceDesignConfiguration();
+        builder.ApplyMonitoringConfiguration();
+        builder.ApplyDashboardConfiguration();
+        builder.ApplyDevicesConfiguration();
     }
 }
