@@ -9,4 +9,7 @@ public class WaterBatchQueryService(IWaterBatchRepository waterBatchRepository) 
 {
     public async Task<IEnumerable<WaterBatch>> Handle(GetAllWaterBatchesQuery query, CancellationToken cancellationToken)
         => await waterBatchRepository.ListAsync(cancellationToken);
+
+    public async Task<WaterBatch?> Handle(GetWaterBatchByIdQuery query, CancellationToken cancellationToken)
+        => await waterBatchRepository.FindByIdAsync(query.WaterBatchId, cancellationToken);
 }
